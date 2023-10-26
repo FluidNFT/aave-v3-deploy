@@ -58,7 +58,11 @@ const func: DeployFunction = async function ({
   // Set Pool implementation to Addresses provider and save the proxy deployment artifact at disk
   if (isPoolProxyPending) {
     const setPoolImplTx = await waitForTx(
-      await addressesProviderInstance.setPoolImpl(poolImplDeployment.address)
+      await addressesProviderInstance.setPoolImpl(
+        poolImplDeployment.address,
+        // ...COMMON_DEPLOY_PARAMS,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
     );
     const txPoolProxyAddress = await addressesProviderInstance.getPool();
     deployments.log(
@@ -81,7 +85,8 @@ const func: DeployFunction = async function ({
   if (isPoolConfiguratorProxyPending) {
     const setPoolConfiguratorTx = await waitForTx(
       await addressesProviderInstance.setPoolConfiguratorImpl(
-        poolConfiguratorImplDeployment.address
+        poolConfiguratorImplDeployment.address,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
     deployments.log(
@@ -105,7 +110,9 @@ const func: DeployFunction = async function ({
       from: deployer,
       contract: "L2Encoder",
       args: [poolProxyAddress],
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     });
   }
 
@@ -117,13 +124,15 @@ const func: DeployFunction = async function ({
   // Set total Flash Loan Premium
   await waitForTx(
     await poolConfiguratorInstance.updateFlashloanPremiumTotal(
-      poolConfig.FlashLoanPremiums.total
+      poolConfig.FlashLoanPremiums.total,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
   // Set protocol Flash Loan Premium
   await waitForTx(
     await poolConfiguratorInstance.updateFlashloanPremiumToProtocol(
-      poolConfig.FlashLoanPremiums.protocol
+      poolConfig.FlashLoanPremiums.protocol,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 

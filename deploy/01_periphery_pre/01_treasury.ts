@@ -83,6 +83,7 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "InitializableAdminUpgradeabilityProxy",
     args: [],
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Deploy Treasury Controller
@@ -90,7 +91,9 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "AaveEcosystemReserveController",
     args: [treasuryOwner],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Deploy Treasury implementation and initialize proxy
@@ -98,7 +101,9 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "AaveEcosystemReserveV2",
     args: [],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   const treasuryImpl = (await hre.ethers.getContractAt(
@@ -107,7 +112,10 @@ const func: DeployFunction = async function ({
   )) as AaveEcosystemReserveV2;
 
   // Call to initialize at implementation contract to prevent other calls.
-  await waitForTx(await treasuryImpl.initialize(ZERO_ADDRESS));
+  await waitForTx(await treasuryImpl.initialize(
+    ZERO_ADDRESS,
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  ));
 
   // Initialize proxy
   const proxy = (await hre.ethers.getContractAt(
@@ -124,7 +132,8 @@ const func: DeployFunction = async function ({
     await proxy["initialize(address,address,bytes)"](
       treasuryImplArtifact.address,
       treasuryOwner,
-      initializePayload
+      initializePayload,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 

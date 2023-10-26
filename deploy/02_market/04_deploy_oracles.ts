@@ -59,7 +59,9 @@ const func: DeployFunction = async function ({
       ZERO_ADDRESS,
       parseUnits("1", OracleQuoteUnit),
     ],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     contract: "AaveOracle",
   });
 

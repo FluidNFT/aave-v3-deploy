@@ -54,7 +54,9 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "Faucet",
     args: [deployer, PERMISSIONED_FAUCET],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   console.log(
@@ -89,7 +91,9 @@ const func: DeployFunction = async function ({
             poolConfig.WrappedNativeTokenSymbol,
             faucetOwnable.address,
           ],
-          ...COMMON_DEPLOY_PARAMS,
+          // ...COMMON_DEPLOY_PARAMS,
+          log: true,
+          maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
         }
       );
     } else {
@@ -103,7 +107,9 @@ const func: DeployFunction = async function ({
           reservesConfig[symbol].reserveDecimals,
           faucetOwnable.address,
         ],
-        ...COMMON_DEPLOY_PARAMS,
+        // ...COMMON_DEPLOY_PARAMS,
+        log: true,
+        maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
       });
     }
   });
@@ -121,7 +127,9 @@ const func: DeployFunction = async function ({
         from: deployer,
         contract: "TestnetERC20",
         args: [reward, reward, 18, faucetOwnable.address],
-        ...COMMON_DEPLOY_PARAMS,
+        // ...COMMON_DEPLOY_PARAMS,
+        log: true,
+        maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
       });
     }
 

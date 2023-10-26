@@ -24,7 +24,11 @@ task(
   );
 
   await waitForTx(
-    await faucetContract.connect(signer).setMintable(wrappedTokenAddress, false)
+    await faucetContract.connect(signer).setMintable(
+      wrappedTokenAddress, 
+      false,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   console.log(
@@ -40,7 +44,11 @@ task(
   await waitForTx(
     await poolConfiguratorProxyContract
       .connect(signer)
-      .setReserveBorrowing(wrappedTokenAddress, false)
+      .setReserveBorrowing(
+        wrappedTokenAddress, 
+        false,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
   );
 
   console.log(

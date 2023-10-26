@@ -17,7 +17,9 @@ const func: DeployFunction = async function ({
     {
       from: deployer,
       args: [deployer],
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     }
   );
 
@@ -29,7 +31,12 @@ const func: DeployFunction = async function ({
   ).connect(await hre.ethers.getSigner(deployer));
 
   await waitForTx(
-    await registryInstance.transferOwnership(addressesProviderRegistryOwner)
+    await registryInstance.transferOwnership(
+      addressesProviderRegistryOwner,
+      {
+        maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
+      }
+    )
   );
 
   deployments.log(

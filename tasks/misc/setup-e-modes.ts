@@ -35,7 +35,8 @@ task(`setup-e-modes`, `Setups e-modes from config`).setAction(
           eMode.liquidationThreshold,
           eMode.liquidationBonus,
           oracle,
-          eMode.label
+          eMode.label,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
         )
       );
 
@@ -51,7 +52,11 @@ task(`setup-e-modes`, `Setups e-modes from config`).setAction(
         const asset = eMode.assets[assetIndex];
         const assetAddress = await getReserveAddress(config, asset);
         await waitForTx(
-          await poolConfigurator.setAssetEModeCategory(assetAddress, eMode.id)
+          await poolConfigurator.setAssetEModeCategory(
+            assetAddress, 
+            eMode.id,
+            {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+          )
         );
         console.log("  - Added", asset, "asset to E-Mode", eMode.label);
       }

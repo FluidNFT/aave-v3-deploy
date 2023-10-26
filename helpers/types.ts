@@ -13,6 +13,7 @@ export type eNetwork =
   | ePolygonNetwork
   | eXDaiNetwork
   | eAvalancheNetwork
+  | eFilecoinNetwork
   | eArbitrumNetwork
   | eHarmonyNetwork
   | eFantomNetwork
@@ -58,6 +59,11 @@ export enum eAvalancheNetwork {
   fuji = "fuji",
 }
 
+export enum eFilecoinNetwork {
+  filecoin = "filecoinmainnet",
+  calibrationnet = "calibrationnet",
+}
+
 export enum eArbitrumNetwork {
   arbitrum = "arbitrum",
   arbitrumTestnet = "arbitrum-testnet",
@@ -78,6 +84,8 @@ export enum EthereumNetworkNames {
   xdai = "xdai",
   avalanche = "avalanche",
   fuji = "fuji",
+  filecoin = "filecoinmainnet",
+  calibrationnet = "calibrationnet",
 }
 
 export enum AavePools {
@@ -454,6 +462,11 @@ export interface iXDaiParamsPerNetwork<T> {
 export interface iAvalancheParamsPerNetwork<T> {
   [eAvalancheNetwork.avalanche]: T;
   [eAvalancheNetwork.fuji]: T;
+}
+
+export interface iFilecoinParamsPerNetwork<T> {
+  [eFilecoinNetwork.filecoin]: T;
+  [eFilecoinNetwork.calibrationnet]: T;
 }
 
 export interface iArbitrumParamsPerNetwork<T> {

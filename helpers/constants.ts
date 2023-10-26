@@ -2,6 +2,7 @@ import { parseEther, parseUnits } from "ethers/lib/utils";
 import {
   eArbitrumNetwork,
   eAvalancheNetwork,
+  eFilecoinNetwork,
   eEthereumNetwork,
   eFantomNetwork,
   eHarmonyNetwork,
@@ -42,6 +43,8 @@ export const WRAPPED_NATIVE_TOKEN_PER_NETWORK: { [network: string]: string } = {
     "0x8592a357252606f5cA2897BD4f500201F7245C28",
   [eOptimismNetwork.main]: "0x4200000000000000000000000000000000000006",
   [eAvalancheNetwork.avalanche]: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+  [eFilecoinNetwork.filecoin]: ZERO_ADDRESS,
+  [eFilecoinNetwork.calibrationnet]: ZERO_ADDRESS,
   [eFantomNetwork.main]: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   [eHarmonyNetwork.main]: "0xcF664087a5bB0237a0BAd6742852ec6c8d69A27a",
   [ePolygonNetwork.polygon]: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
@@ -132,6 +135,8 @@ export const EMPTY_STORAGE_SLOT =
 export const POOL_ADMIN: Record<string, string> = {
   [eArbitrumNetwork.arbitrum]: "0xbbd9f90699c1FA0D7A65870D241DD1f1217c96Eb",
   [eAvalancheNetwork.avalanche]: "0xa35b76E4935449E33C56aB24b23fcd3246f13470",
+  [eFilecoinNetwork.filecoin]: "0xeB6722E77745acbDeE7ff32e87e64D24AD2a83BF",
+  [eFilecoinNetwork.calibrationnet]: "0xeB6722E77745acbDeE7ff32e87e64D24AD2a83BF",
   [eFantomNetwork.main]: "0x39CB97b105173b56b5a2b4b33AD25d6a50E6c949",
   [eHarmonyNetwork.main]: "0xb2f0C5f37f4beD2cB51C44653cD5D84866BDcd2D",
   [eOptimismNetwork.main]: "0xE50c8C619d05ff98b22Adf991F17602C774F785c",
@@ -142,6 +147,8 @@ export const POOL_ADMIN: Record<string, string> = {
 export const EMERGENCY_ADMIN: Record<string, string> = {
   [eArbitrumNetwork.arbitrum]: "0xbbd9f90699c1FA0D7A65870D241DD1f1217c96Eb",
   [eAvalancheNetwork.avalanche]: "0xa35b76E4935449E33C56aB24b23fcd3246f13470",
+  [eFilecoinNetwork.filecoin]: "0xeB6722E77745acbDeE7ff32e87e64D24AD2a83BF",
+  [eFilecoinNetwork.calibrationnet]: "0xeB6722E77745acbDeE7ff32e87e64D24AD2a83BF",
   [eFantomNetwork.main]: "0x39CB97b105173b56b5a2b4b33AD25d6a50E6c949",
   [eHarmonyNetwork.main]: "0xb2f0C5f37f4beD2cB51C44653cD5D84866BDcd2D",
   [eOptimismNetwork.main]: "0xE50c8C619d05ff98b22Adf991F17602C774F785c",

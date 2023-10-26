@@ -43,6 +43,9 @@ const func: DeployFunction = async function ({
   // Deploy L2 libraries
   const calldataLogicLibrary = await deploy("CalldataLogic", {
     from: deployer,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Deploy L2 supported Pool
@@ -54,12 +57,17 @@ const func: DeployFunction = async function ({
       ...commonLibraries,
       CalldataLogic: calldataLogicLibrary.address,
     },
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Initialize implementation
   const pool = await getPool(poolArtifact.address);
-  await waitForTx(await pool.initialize(addressesProviderAddress));
+  await waitForTx(await pool.initialize(
+    addressesProviderAddress,
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  ));
   console.log("Initialized L2Pool Implementation");
 };
 

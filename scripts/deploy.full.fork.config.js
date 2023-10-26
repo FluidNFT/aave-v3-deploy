@@ -12,7 +12,7 @@ const commons = {
   autorestart: false,
   env: {
     SKIP_COMPILE: "true",
-    DETERMINISTIC_DEPLOYMENT: "true",
+    DETERMINISTIC_DEPLOYMENT: "false",
   },
 };
 

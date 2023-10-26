@@ -55,7 +55,10 @@ const func: DeployFunction = async function ({
     console.log("[addresses-provider] Price oracle already set. Skipping tx.");
   } else {
     await waitForTx(
-      await addressesProviderInstance.setPriceOracle(configPriceOracle)
+      await addressesProviderInstance.setPriceOracle(
+        configPriceOracle,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
     );
     console.log(
       `[Deployment] Added PriceOracle ${configPriceOracle} to PoolAddressesProvider`

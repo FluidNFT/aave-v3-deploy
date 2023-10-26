@@ -66,7 +66,9 @@ const func: DeployFunction = async function ({
       from: deployer,
       args: args,
       contract: "DefaultReserveInterestRateStrategy",
+      // ...COMMON_DEPLOY_PARAMS,
       log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     });
   }
 

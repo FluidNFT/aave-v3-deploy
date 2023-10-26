@@ -60,7 +60,9 @@ const func: DeployFunction = async function ({
     await deploy(`${symbol}${TESTNET_PRICE_AGGR_PREFIX}`, {
       args: [price],
       from: deployer,
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
       contract: "MockAggregator",
     });
   });

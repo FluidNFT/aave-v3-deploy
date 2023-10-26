@@ -35,13 +35,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const reserves = await getReserveAddresses(poolConfig, network);
   console.log(reserves);
   const reservesConfig = poolConfig.ReservesConfig;
-
+  console.log(reservesConfig);
   const reserveConfigSymbols = Object.keys(reservesConfig);
   const reserveSymbols = Object.keys(reserves);
 
   if (!containsSameMembers(reserveConfigSymbols, reserveSymbols)) {
-    console.log(reserveConfigSymbols);
     console.log(reserveSymbols);
+    console.log(reserveConfigSymbols);
     throw "[Deployment][Error] Mismatch between Config.ReservesConfig and Config.ReserveAssets token symbols";
   }
   if (reserveSymbols.length === 0) {
@@ -65,7 +65,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     contract: "PoolAddressesProvider",
     args: ["0", deployer],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
   const signer = await hre.ethers.getSigner(deployer);
 
@@ -78,7 +80,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // 2. Set the MarketId
   await waitForTx(
-    await addressesProviderInstance.setMarketId(poolConfig.MarketId)
+    await addressesProviderInstance.setMarketId(
+      poolConfig.MarketId,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   // 3. Add AddressesProvider to Registry
@@ -92,7 +97,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     from: deployer,
     contract: "AaveProtocolDataProvider",
     args: [addressesProviderArtifact.address],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
   const currentProtocolDataProvider =
     await addressesProviderInstance.getPoolDataProvider();
@@ -103,7 +110,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   ) {
     await waitForTx(
       await addressesProviderInstance.setPoolDataProvider(
-        protocolDataProvider.address
+        protocolDataProvider.address,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
   }

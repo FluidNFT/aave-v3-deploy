@@ -18,6 +18,7 @@ import AaveTestMarket from "../markets/test";
 import HarmonyMarket from "../markets/harmony";
 import AvalancheMarket from "../markets/avalanche";
 import FantomMarket from "../markets/fantom";
+import FilecoinMarket from "../markets/filecoin";
 import PolygonMarket from "../markets/polygon";
 import OptimisticConfig from "../markets/optimistic";
 import ArbitrumConfig from "../markets/arbitrum";
@@ -45,6 +46,7 @@ export enum ConfigNames {
   Harmony = "Harmony",
   Avalanche = "Avalanche",
   Fantom = "Fantom",
+  Filecoin = "Filecoin",
   Polygon = "Polygon",
   Optimistic = "Optimistic",
   Arbitrum = "Arbitrum",
@@ -106,6 +108,8 @@ export const loadPoolConfig = (configName: ConfigNames): PoolConfiguration => {
       return AvalancheMarket;
     case ConfigNames.Fantom:
       return FantomMarket;
+    case ConfigNames.Filecoin:
+      return FilecoinMarket;
     case ConfigNames.Polygon:
       return PolygonMarket;
     case ConfigNames.Optimistic:

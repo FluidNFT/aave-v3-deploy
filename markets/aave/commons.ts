@@ -1,6 +1,7 @@
 import {
   AssetType,
   eAvalancheNetwork,
+  eFilecoinNetwork,
   eFantomNetwork,
   eHarmonyNetwork,
   eOptimismNetwork,
@@ -78,6 +79,8 @@ export const CommonsConfig: ICommonConfiguration = {
       [eFantomNetwork.main]: true,
       [eHarmonyNetwork.main]: true,
       [eAvalancheNetwork.avalanche]: true,
+      [eFilecoinNetwork.filecoin]: true,
+      [eFilecoinNetwork.calibrationnet]: true,
     },
     rewards: {
       [eArbitrumNetwork.arbitrumTestnet]: {

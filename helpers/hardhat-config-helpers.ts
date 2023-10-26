@@ -9,6 +9,7 @@ import {
   eArbitrumNetwork,
   eHarmonyNetwork,
   eAvalancheNetwork,
+  eFilecoinNetwork,
   eFantomNetwork,
   eOptimismNetwork,
 } from "./types";
@@ -79,6 +80,8 @@ export const NETWORKS_RPC_URL: iParamsPerNetwork<string> = {
   [eHarmonyNetwork.testnet]: `https://api.s0.b.hmny.io`,
   [eAvalancheNetwork.avalanche]: "https://api.avax.network/ext/bc/C/rpc",
   [eAvalancheNetwork.fuji]: "https://api.avax-test.network/ext/bc/C/rpc",
+  [eFilecoinNetwork.filecoin]: "https://api.node.glif.io",
+  [eFilecoinNetwork.calibrationnet]: "https://api.calibration.node.glif.io/rpc/v1",
   [eFantomNetwork.main]: "https://rpc.ftm.tools/",
   [eFantomNetwork.testnet]: "https://rpc.testnet.fantom.network/",
   [eOptimismNetwork.testnet]: `https://opt-goerli.g.alchemy.com/v2/demo`,
@@ -99,6 +102,8 @@ export const LIVE_NETWORKS: iParamsPerNetwork<boolean> = {
   [eArbitrumNetwork.arbitrum]: true,
   [eHarmonyNetwork.main]: true,
   [eAvalancheNetwork.avalanche]: true,
+  [eFilecoinNetwork.filecoin]: false,
+  [eFilecoinNetwork.calibrationnet]: false,
   [eFantomNetwork.main]: true,
   [eOptimismNetwork.main]: true,
 };
@@ -139,6 +144,7 @@ export const getCommonNetworkConfig = (
   url: NETWORKS_RPC_URL[networkName] || "",
   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
   chainId,
+  maxPriorityFeePerGas: '50', 
   gasPrice: GAS_PRICE_PER_NET[networkName] || undefined,
   ...((!!MNEMONICS[networkName] || !!MNEMONIC) && {
     accounts: {
@@ -153,6 +159,8 @@ export const getCommonNetworkConfig = (
 
 const MNEMONICS: iParamsPerNetwork<string> = {
   [eAvalancheNetwork.fuji]: process.env.FUJI_MNEMONIC,
+  [eFilecoinNetwork.filecoin]: process.env.FILECOIN_MNEMONIC,
+  [eFilecoinNetwork.calibrationnet]: process.env.FILECOIN_MNEMONIC,
   [eFantomNetwork.testnet]: process.env.FANTOM_MNEMONIC,
   [eHarmonyNetwork.testnet]: process.env.HARMONY_MNEMONIC,
   [eArbitrumNetwork.arbitrumTestnet]: process.env.ARBITRUM_MNEMONIC,
@@ -161,6 +169,7 @@ const MNEMONICS: iParamsPerNetwork<string> = {
 };
 
 export const hardhatNetworkSettings = {
+  maxPriorityFeePerGas: '50', 
   gasPrice: "auto",
   initialBaseFeePerGas: "0",
   blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,

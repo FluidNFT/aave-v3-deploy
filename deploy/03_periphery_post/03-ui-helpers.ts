@@ -28,6 +28,8 @@ const func: DeployFunction = async function ({
   // Deploy UiIncentiveDataProvider getter helper
   await deploy("UiIncentiveDataProviderV3", {
     from: deployer,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Deploy UiPoolDataProvider getter helper
@@ -37,7 +39,9 @@ const func: DeployFunction = async function ({
       chainlinkAggregatorProxy[network],
       chainlinkEthUsdAggregatorProxy[network],
     ],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 };
 

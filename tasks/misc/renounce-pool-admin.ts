@@ -46,7 +46,8 @@ task(
     const tx = await waitForTx(
       await aclManager.renounceRole(
         await aclManager.POOL_ADMIN_ROLE(),
-        deployer
+        deployer,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
     console.log("- Deployer renounced PoolAdmin role");

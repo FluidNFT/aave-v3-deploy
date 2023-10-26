@@ -9,6 +9,7 @@ import {
 import {
   eArbitrumNetwork,
   eAvalancheNetwork,
+  eFilecoinNetwork,
   eEthereumNetwork,
   eFantomNetwork,
   eHarmonyNetwork,
@@ -98,6 +99,14 @@ export default {
     [eAvalancheNetwork.fuji]: getCommonNetworkConfig(
       eAvalancheNetwork.fuji,
       43113
+    ),
+    [eFilecoinNetwork.filecoin]: getCommonNetworkConfig(
+      eFilecoinNetwork.filecoin,
+      314
+    ),
+    [eFilecoinNetwork.calibrationnet]: getCommonNetworkConfig(
+      eFilecoinNetwork.calibrationnet,
+      314159
     ),
     [eFantomNetwork.main]: getCommonNetworkConfig(eFantomNetwork.main, 250),
     [eFantomNetwork.testnet]: getCommonNetworkConfig(

@@ -554,19 +554,23 @@ export const setupStkAave = async (
       await stkProxy["initialize(address,address,bytes)"](
         implRev1.address,
         proxyAdmin.address,
-        initialPayloadStkAaveRev1
+        initialPayloadStkAaveRev1,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
     console.log("- Initializing admin proxy for stkAAVE");
   }
 
-  const revisionV1 = Number((await proxyWithImpl.REVISION()).toString());
+  const revisionV1 = Number((await proxyWithImpl.REVISION(
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  )).toString());
   if (revisionV1 < 2) {
     // Upgrade to Revision 2
     await waitForTx(
       await stkProxy.upgradeToAndCall(
         implRev2.address,
-        upgradePayloadStkAaveRev2andRev3
+        upgradePayloadStkAaveRev2andRev3,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
     console.log("- Upgraded stkAAVE to Revision 2");
@@ -579,7 +583,8 @@ export const setupStkAave = async (
     await waitForTx(
       await stkProxy.upgradeToAndCall(
         implRev3.address,
-        upgradePayloadStkAaveRev2andRev3
+        upgradePayloadStkAaveRev2andRev3,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
     console.log("- Upgraded stkAAVE to Revision 3");

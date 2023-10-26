@@ -66,7 +66,9 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "EmissionManager",
     args: [deployer],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
   const emissionManager = (await hre.ethers.getContractAt(
     emissionManagerArtifact.abi,
@@ -78,7 +80,9 @@ const func: DeployFunction = async function ({
     from: deployer,
     contract: "RewardsController",
     args: [emissionManagerArtifact.address],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
   const incentivesImpl = (await hre.ethers.getContractAt(
     incentivesImplArtifact.abi,
@@ -86,7 +90,10 @@ const func: DeployFunction = async function ({
   )) as RewardsController;
 
   // Call to initialize at implementation contract to prevent others.
-  await waitForTx(await incentivesImpl.initialize(ZERO_ADDRESS));
+  await waitForTx(await incentivesImpl.initialize(
+    ZERO_ADDRESS,
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  ));
 
   // The Rewards Controller must be set at PoolAddressesProvider with id keccak256("INCENTIVES_CONTROLLER"):
   // 0x703c2c8634bed68d98c029c18f310e7f7ec0e5d6342c590190b3cb8b3ba54532
@@ -102,7 +109,8 @@ const func: DeployFunction = async function ({
     const setRewardsAsProxyTx = await waitForTx(
       await addressesProviderInstance.setAddressAsProxy(
         incentivesControllerId,
-        incentivesImpl.address
+        incentivesImpl.address,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
       )
     );
 
@@ -126,7 +134,10 @@ const func: DeployFunction = async function ({
 
   // Init RewardsController address
   await waitForTx(
-    await emissionManager.setRewardsController(rewardsProxyAddress)
+    await emissionManager.setRewardsController(
+      rewardsProxyAddress,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   if (!isLive) {
@@ -138,7 +149,9 @@ const func: DeployFunction = async function ({
         incentivesEmissionManager,
         incentivesRewardsVault,
       ],
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     });
     const stakedAaveAddress = isLive
       ? getParamPerNetwork(poolConfig.StkAaveProxy, network)
@@ -153,7 +166,9 @@ const func: DeployFunction = async function ({
           incentivesEmissionManager,
           stakedAaveAddress,
         ],
-        ...COMMON_DEPLOY_PARAMS,
+        // ...COMMON_DEPLOY_PARAMS,
+        log: true,
+        maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
       });
     } else {
       console.log(
@@ -165,7 +180,10 @@ const func: DeployFunction = async function ({
   // Transfer emission manager ownership
 
   await waitForTx(
-    await emissionManager.transferOwnership(incentivesEmissionManager)
+    await emissionManager.transferOwnership(
+      incentivesEmissionManager,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   return true;

@@ -11,6 +11,7 @@ import { getPoolConfiguratorProxy, waitForTx } from "../../helpers";
 const func: DeployFunction = async function ({
   getNamedAccounts,
   deployments,
+  ...hre
 }: HardhatRuntimeEnvironment) {
   const { deploy, get } = deployments;
   const { deployer } = await getNamedAccounts();
@@ -27,18 +28,26 @@ const func: DeployFunction = async function ({
     libraries: {
       ConfiguratorLogic: configuratorLogicArtifact.address,
     },
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Initialize implementation
   const poolConfig = await getPoolConfiguratorProxy(poolConfigArtifact.address);
-  await waitForTx(await poolConfig.initialize(addressesProviderAddress));
+  await waitForTx(await poolConfig.initialize(
+    addressesProviderAddress,
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  ));
   console.log("Initialized PoolConfigurator Implementation");
 
   await deploy(RESERVES_SETUP_HELPER_ID, {
     from: deployer,
     args: [],
     contract: "ReservesSetupHelper",
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   return true;

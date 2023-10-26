@@ -27,9 +27,13 @@ task(
     );
     const assetAddress = await getReserveAddress(config, asset);
 
-    if (debtCeiling.gt("0")) {
+    if (debtCeiling.gt("0")) { 
       await waitForTx(
-        await poolConfigurator.setDebtCeiling(assetAddress, debtCeiling)
+        await poolConfigurator.setDebtCeiling(
+          assetAddress, 
+          debtCeiling,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+        )
       );
       console.log(
         "- Updated debt ceiling of",

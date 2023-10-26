@@ -44,7 +44,11 @@ const func: DeployFunction = async function ({
 
     // Unpause pool
     const poolConfigurator = await getPoolConfiguratorProxy();
-    await waitForTx(await poolConfigurator.setPoolPause(false));
+    await waitForTx(await poolConfigurator.setPoolPause(
+      false,
+      // ...COMMON_DEPLOY_PARAMS,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
     console.log("- Pool unpaused and accepting deposits.");
   }
 

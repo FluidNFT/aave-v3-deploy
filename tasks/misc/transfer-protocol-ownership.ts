@@ -99,7 +99,10 @@ task(
   const isDeployerAdminParaswapRepayAdapter =
     (await paraswapRepayAdapter.owner()) == deployer;
   if (isDeployerAdminParaswapRepayAdapter) {
-    await paraswapRepayAdapter.transferOwnership(desiredAdmin);
+    await paraswapRepayAdapter.transferOwnership
+    (desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log("- Transferred ParaswapRepayAdapter ownership");
   }
 
@@ -107,7 +110,10 @@ task(
     (await paraswapSwapAdapter.owner()) == deployer;
 
   if (isDeployerAdminParaswapSwapAdapter) {
-    await paraswapSwapAdapter.transferOwnership(desiredAdmin);
+    await paraswapSwapAdapter.transferOwnership(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log("- Transferred ParaswapSwapAdapter ownership");
   }
   /** End of Paraswap Helpers Ownership */
@@ -117,9 +123,15 @@ task(
     emergencyAdmin
   );
   if (isDeployerEmergencyAdmin) {
-    await waitForTx(await aclManager.addEmergencyAdmin(desiredAdmin));
+    await waitForTx(await aclManager.addEmergencyAdmin(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
 
-    await waitForTx(await aclManager.removeEmergencyAdmin(emergencyAdmin));
+    await waitForTx(await aclManager.removeEmergencyAdmin(
+      emergencyAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
     console.log("- Transferred the ownership of Emergency Admin");
   }
   /** End of Emergency Admin transfer */
@@ -127,9 +139,15 @@ task(
   /** Start of Pool Admin transfer */
   const isDeployerPoolAdmin = await aclManager.isPoolAdmin(poolAdmin);
   if (isDeployerPoolAdmin) {
-    await waitForTx(await aclManager.addPoolAdmin(desiredAdmin));
+    await waitForTx(await aclManager.addPoolAdmin(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
 
-    await waitForTx(await aclManager.removePoolAdmin(poolAdmin));
+    await waitForTx(await aclManager.removePoolAdmin(
+      poolAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
     console.log("- Transferred the ownership of Pool Admin");
   }
   /** End of Pool Admin transfer */
@@ -138,7 +156,10 @@ task(
   const isDeployerACLAdminAtPoolAddressesProviderOwner =
     (await poolAddressesProvider.getACLAdmin()) === deployer;
   if (isDeployerACLAdminAtPoolAddressesProviderOwner) {
-    await poolAddressesProvider.setACLAdmin(desiredAdmin);
+    await poolAddressesProvider.setACLAdmin(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log("- Transferred ACL Admin");
   }
 
@@ -146,7 +167,10 @@ task(
   const isDeployerPoolAddressesProviderOwner =
     (await poolAddressesProvider.owner()) === poolAdmin;
   if (isDeployerPoolAddressesProviderOwner) {
-    await poolAddressesProvider.transferOwnership(desiredAdmin);
+    await poolAddressesProvider.transferOwnership(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log(
       "- Transferred of Pool Addresses Provider and Market ownership"
     );
@@ -158,7 +182,10 @@ task(
     (await poolAddressesProviderRegistry.owner()) ===
     addressesProviderRegistryOwner;
   if (isDeployerPoolAddressesProviderRegistryOwner) {
-    await poolAddressesProviderRegistry.transferOwnership(desiredAdmin);
+    await poolAddressesProviderRegistry.transferOwnership(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log("- Transferred of Pool Addresses Provider Registry");
   }
   /** End of Pool Addresses Provider Registry transfer ownership */
@@ -166,7 +193,10 @@ task(
   /** Start of WrappedTokenGateway transfer ownership */
   const isDeployerGatewayOwner = (await wrappedGateway.owner()) === poolAdmin;
   if (isDeployerGatewayOwner) {
-    await waitForTx(await wrappedGateway.transferOwnership(desiredAdmin));
+    await waitForTx(await wrappedGateway.transferOwnership(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    ));
     console.log("- Transferred WrappedTokenGateway ownership");
   }
   /** End of WrappedTokenGateway ownership */
@@ -175,7 +205,10 @@ task(
   const isDeployerEmissionManagerOwner =
     (await emissionManager.owner()) === deployer;
   if (isDeployerEmissionManagerOwner) {
-    await emissionManager.transferOwnership(desiredAdmin);
+    await emissionManager.transferOwnership(
+      desiredAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    );
     console.log(`
     - Transferred owner of EmissionManager from ${deployer} to ${desiredAdmin}
     `);
@@ -192,13 +225,21 @@ task(
       "- Transferring the DEFAULT_ADMIN_ROLE to the multisig address"
     );
     await waitForTx(
-      await aclManager.grantRole(hre.ethers.constants.HashZero, desiredAdmin)
+      await aclManager.grantRole(
+        hre.ethers.constants.HashZero, 
+        desiredAdmin,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
     );
     console.log(
       "- Revoking deployer as DEFAULT_ADMIN_ROLE to the multisig address"
     );
     await waitForTx(
-      await aclManager.revokeRole(hre.ethers.constants.HashZero, deployer)
+      await aclManager.revokeRole(
+        hre.ethers.constants.HashZero, 
+        deployer,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
     );
     console.log("- Revoked DEFAULT_ADMIN_ROLE to deployer ");
   }

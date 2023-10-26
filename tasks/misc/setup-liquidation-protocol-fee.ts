@@ -31,7 +31,8 @@ task(
       await waitForTx(
         await poolConfigurator.setLiquidationProtocolFee(
           assetAddress,
-          liquidationProtocolFee
+          liquidationProtocolFee,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
         )
       );
       assetsWithProtocolFees.push(asset);

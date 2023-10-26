@@ -102,10 +102,12 @@ export const deployContract = async <ContractType extends Contract>(
   const artifact = await hre.deployments.deploy(
     id || `${contract}-${crypto.randomUUID()}`, // Prevent collisions with principal deployment in tests environment
     {
-      contract,
-      args,
-      from,
-      libraries,
+      contract: contract,
+      args: args,
+      from: from,
+      libraries: libraries,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     }
   );
   return hre.ethers.getContractAt(

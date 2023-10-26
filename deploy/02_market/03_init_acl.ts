@@ -31,14 +31,19 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   ).connect(await hre.ethers.getSigner(deployer)) as PoolAddressesProvider;
 
   // 1. Set ACL admin at AddressesProvider
-  await waitForTx(await addressesProviderInstance.setACLAdmin(aclAdmin));
+  await waitForTx(await addressesProviderInstance.setACLAdmin(
+    aclAdmin,
+    {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+  ));
 
   // 2. Deploy ACLManager and setup administrators
   const aclManagerArtifact = await deploy(ACL_MANAGER_ID, {
     from: deployer,
     contract: "ACLManager",
     args: [addressesProviderArtifact.address],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   const aclManager = (
@@ -50,17 +55,26 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   // 3. Setup ACLManager at AddressesProviderInstance
   await waitForTx(
-    await addressesProviderInstance.setACLManager(aclManager.address)
+    await addressesProviderInstance.setACLManager(
+      aclManager.address,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   // 4. Add PoolAdmin to ACLManager contract
   await waitForTx(
-    await aclManager.connect(aclAdminSigner).addPoolAdmin(poolAdmin)
+    await aclManager.connect(aclAdminSigner).addPoolAdmin(
+      poolAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   // 5. Add EmergencyAdmin  to ACLManager contract
   await waitForTx(
-    await aclManager.connect(aclAdminSigner).addEmergencyAdmin(emergencyAdmin)
+    await aclManager.connect(aclAdminSigner).addEmergencyAdmin(
+      emergencyAdmin,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+    )
   );
 
   const isACLAdmin = await aclManager.hasRole(ZERO_BYTES_32, aclAdmin);

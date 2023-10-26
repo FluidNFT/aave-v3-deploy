@@ -152,6 +152,7 @@ task(`review-rate-strategies`, ``)
                 args: deployArgs,
                 contract: "DefaultReserveInterestRateStrategy",
                 log: true,
+                maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
                 deterministicDeployment: hre.ethers.utils.formatBytes32String(
                   expectedStrategy.name
                 ),
@@ -167,7 +168,8 @@ task(`review-rate-strategies`, ``)
               await waitForTx(
                 await poolConfigurator.setReserveInterestRateStrategyAddress(
                   tokenAddress,
-                  fixedInterestStrategy.address
+                  fixedInterestStrategy.address,
+                  {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
                 )
               );
               console.log(

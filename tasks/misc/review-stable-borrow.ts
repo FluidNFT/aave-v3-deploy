@@ -98,7 +98,8 @@ task(`review-stable-borrow`, ``)
           await waitForTx(
             await poolConfigurator.setReserveStableRateBorrowing(
               tokenAddress,
-              expectedStableRateEnabled
+              expectedStableRateEnabled,
+              {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
             )
           );
           const newOnChainStableRateEnabled = (

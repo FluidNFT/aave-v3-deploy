@@ -32,7 +32,9 @@ const func: DeployFunction = async function ({
     await deploy("MockFlashLoanReceiver", {
       from: deployer,
       args: [await (await deployments.get(POOL_ADDRESSES_PROVIDER_ID)).address],
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     });
   }
 

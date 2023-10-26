@@ -223,7 +223,10 @@ export const initReservesByHelper = async (
     chunkIndex++
   ) {
     const tx = await waitForTx(
-      await configurator.initReserves(chunkedInitInputParams[chunkIndex])
+      await configurator.initReserves(
+        chunkedInitInputParams[chunkIndex],
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
     );
 
     console.log(
@@ -377,7 +380,10 @@ export const configureReservesByHelper = async (
     await waitForTx(
       await aclManager
         .connect(aclAdmin)
-        .addRiskAdmin(reservesSetupHelper.address)
+        .addRiskAdmin(
+          reservesSetupHelper.address,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+        )
     );
 
     // Deploy init per chunks
@@ -395,7 +401,8 @@ export const configureReservesByHelper = async (
       const tx = await waitForTx(
         await reservesSetupHelper.configureReserves(
           poolConfiguratorAddress,
-          chunkedInputParams[chunkIndex]
+          chunkedInputParams[chunkIndex],
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
         )
       );
       console.log(
@@ -407,7 +414,10 @@ export const configureReservesByHelper = async (
     await waitForTx(
       await aclManager
         .connect(aclAdmin)
-        .removeRiskAdmin(reservesSetupHelper.address)
+        .removeRiskAdmin(
+          reservesSetupHelper.address,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+        )
     );
   }
 };
@@ -438,7 +448,11 @@ export const addMarketToRegistry = async (
   await waitForTx(
     await providerRegistryInstance
       .connect(signer)
-      .registerAddressesProvider(addressesProvider, providerId)
+      .registerAddressesProvider(
+        addressesProvider, 
+        providerId,
+        {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
+      )
   );
   console.log(
     `Added LendingPoolAddressesProvider with address "${addressesProvider}" to registry located at ${providerRegistry.address}`

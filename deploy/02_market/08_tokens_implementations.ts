@@ -42,7 +42,9 @@ const func: DeployFunction = async function ({
     contract: "AToken",
     from: deployer,
     args: [poolAddress],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   const aToken = (await hre.ethers.getContractAt(
@@ -58,7 +60,8 @@ const func: DeployFunction = async function ({
       0, // aTokenDecimals
       "ATOKEN_IMPL", // aTokenName
       "ATOKEN_IMPL", // aTokenSymbol
-      "0x00" // params
+      "0x00", // params,
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 
@@ -68,7 +71,9 @@ const func: DeployFunction = async function ({
       contract: "DelegationAwareAToken",
       from: deployer,
       args: [poolAddress],
-      ...COMMON_DEPLOY_PARAMS,
+      // ...COMMON_DEPLOY_PARAMS,
+      log: true,
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
     }
   );
 
@@ -85,7 +90,8 @@ const func: DeployFunction = async function ({
       0, // aTokenDecimals
       "DELEGATION_AWARE_ATOKEN_IMPL", // aTokenName
       "DELEGATION_AWARE_ATOKEN_IMPL", // aTokenSymbol
-      "0x00" // params
+      "0x00", // params
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 
@@ -93,7 +99,9 @@ const func: DeployFunction = async function ({
     contract: "StableDebtToken",
     from: deployer,
     args: [poolAddress],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   const stableDebtToken = (await hre.ethers.getContractAt(
@@ -108,7 +116,8 @@ const func: DeployFunction = async function ({
       0, // debtTokenDecimals
       "STABLE_DEBT_TOKEN_IMPL", // debtTokenName
       "STABLE_DEBT_TOKEN_IMPL", // debtTokenSymbol
-      "0x00" // params
+      "0x00", // params
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 
@@ -116,7 +125,9 @@ const func: DeployFunction = async function ({
     contract: "VariableDebtToken",
     from: deployer,
     args: [poolAddress],
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   const variableDebtToken = (await hre.ethers.getContractAt(
@@ -131,7 +142,8 @@ const func: DeployFunction = async function ({
       0, // debtTokenDecimals
       "VARIABLE_DEBT_TOKEN_IMPL", // debtTokenName
       "VARIABLE_DEBT_TOKEN_IMPL", // debtTokenSymbol
-      "0x00" // params
+      "0x00", // params
+      {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
     )
   );
 

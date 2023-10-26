@@ -48,12 +48,19 @@ const func: DeployFunction = async function ({
     libraries: {
       ...commonLibraries,
     },
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 
   // Initialize implementation
   const pool = await getPool(poolArtifact.address);
-  await waitForTx(await pool.initialize(addressesProviderAddress));
+  await waitForTx(await pool.initialize(
+    addressesProviderAddress,
+    {
+      maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
+    }
+  ));
   console.log("Initialized Pool Implementation");
 };
 

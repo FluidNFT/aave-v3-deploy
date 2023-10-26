@@ -12,7 +12,9 @@ const func: DeployFunction = async function ({
 
   await deploy("WalletBalanceProvider", {
     from: deployer,
-    ...COMMON_DEPLOY_PARAMS,
+    // ...COMMON_DEPLOY_PARAMS,
+    log: true,
+    maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),
   });
 };
 

@@ -28,7 +28,8 @@ task(
       await waitForTx(
         await poolConfigurator.setBorrowableInIsolation(
           assetAddress,
-          borrowableIsolation
+          borrowableIsolation,
+          {maxPriorityFeePerGas: hre.ethers.utils.parseUnits('50', 'gwei'),}
         )
       );
       assetsWithBorrowableIsolationMode.push(asset);
